@@ -1,0 +1,76 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #eee;
+}
+
+h1 {
+  margin-top: 20px;
+}
+
+#board {
+  display: grid;
+  grid-template-columns: repeat(15, 40px);
+  grid-template-rows: repeat(15, 40px);
+  margin: 20px auto;
+  width: 600px;
+  height: 600px;
+  border: 3px solid black;
+  position: relative;
+}
+
+.cell {
+  border: 1px solid #ccc;
+}
+
+/* Home zones */
+.home-red {
+  background-color: #f44336;
+}
+
+.home-green {
+  background-color: #4CAF50;
+}
+
+.home-yellow {
+  background-color: #FFEB3B;
+}
+
+.home-blue {
+  background-color: #2196F3;
+}
+
+/* Tokens */
+.token {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin: auto;
+  margin-top: 5px;
+}
+
+.token.red {
+  background-color: #c62828;
+}
+
+.token.green {
+  background-color: #2e7d32;
+}
+
+.token.yellow {
+  background-color: #fbc02d;
+}
+
+.token.blue {
+  background-color: #1565c0;
+}
+
+/* Controls */
+#controls {
+  margin: 20px;
+}
+
+#dice {
+  font-size: 24px;
+  margin-top: 10px;
+}

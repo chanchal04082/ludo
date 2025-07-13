@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ludo Game - 4 Players</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #eee;
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+
+    #board {
+      display: grid;
+      grid-template-columns: repeat(15, 40px);
+      grid-template-rows: repeat(15, 40px);
+      margin: 20px auto;
+      width: 600px;
+      height: 600px;
+      border: 3px solid black;
+      position: relative;
+    }
+
+    .cell {
+      border: 1px solid #ccc;
+    }
+
+    .home-red {
+      background-color: #f44336;
+    }
+
+    .home-green {
+      background-color: #4CAF50;
+    }
+
+    .home-yellow {
+      background-color: #FFEB3B;
+    }
+
+    .home-blue {
+      background-color: #2196F3;
+    }
+
+    .token {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin: auto;
+      margin-top: 5px;
+    }
+
+    .token.red { background-color: #c62828; }
+    .token.green { background-color: #2e7d32; }
+    .token.yellow { background-color: #fbc02d; }
+    .token.blue { background-color: #1565c0; }
+
+    #controls {
+      margin: 20px;
+    }
+
+    #dice {
+      font-size: 24px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧩 Ludo Game (4 Players)</h1>
+  <div id="controls">
+    <button onclick="rollDice()">🎲 Roll Dice</button>
+    <div id="dice">Roll: 0</div>
+    <div id="turn">Player Turn: Red 🔴</div>
+  </div>
+
+  <div id="board"></div>
+
+  <script>
+    const board = document.getElementById("board");
+    const diceDiv = document.getElementById("dice");
+    const turnDiv = document.getElementById("turn");
+
+    const COLORS = ["red", "green", "yellow", "blue"];
+    let currentPlayer = 0;
+    let playerPositions = [0, 0, 0, 0]; // Start at position 0 for each
+
+    // Build the board (15x15 grid)
+    for (let i = 0; i < 225; i++) {
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
+
+      // Color corners as homes
+      if (i < 6 * 15 && i % 15 < 6) cell.classList.add("home-red");
+      else if (i < 6 * 15 && i % 15 >= 9) cell.classList.add("home-green");
+      else if (i >= 9 * 15 && i % 15 < 6) cell.classList.add("home-yellow");
+      else if (i >= 9 * 15 && i % 15 >= 9) cell.classList.add("home-blue");
+
+      board.appendChild(cell);
+    }
+
+    const cells = document.querySelectorAll(".cell");
+
+    // Create one token per player
+    const tokens = COLORS.map(color => {
+      const token = document.createElement("div");
+      token.classList.add("token", color);
+      cells[0].appendChild(token); // Starting all at 0 for now
+      return token;
+    });
+
+    function rollDice() {
+      const roll = Math.floor(Math.random() * 6) + 1;
+      diceDiv.textContent = "Roll: " + roll;
+
+      // Move token
+      moveToken(currentPlayer, roll);
+
+      // Switch turn
+      currentPlayer = (currentPlayer + 1) % 4;
+      turnDiv.textContent = `Player Turn: ${COLORS[currentPlayer].charAt(0).toUpperCase() + COLORS[currentPlayer].slice(1)} ${getEmoji(currentPlayer)}`;
+    }
+
+    function moveToken(playerIndex, roll) {
+      let currentPos = playerPositions[playerIndex];
+      cells[currentPos].innerHTML = ""; // Remove from current
+
+      currentPos += roll;
+      if (currentPos >= cells.length) currentPos = cells.length - 1;
+
+      cells[currentPos].appendChild(tokens[playerIndex]);
+      playerPositions[playerIndex] = currentPos;
+    }
+
+    function getEmoji(index) {
+      return ["🔴", "🟢", "🟡", "🔵"][index];
+    }
+  </script>
+</body>
+</html>
